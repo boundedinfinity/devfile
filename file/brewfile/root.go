@@ -12,7 +12,6 @@ type BrewFileProcessor struct {
     Debug        bool
     Logger       *log.Logger
     OutputFormat manager.OutputFormat
-    Clean        bool
 }
 
 func NewBrewFileProcessor(options ...BrewFileProcessorOption) (*BrewFileProcessor, error) {
@@ -37,17 +36,16 @@ func NewBrewFileProcessor(options ...BrewFileProcessorOption) (*BrewFileProcesso
         Lines: make([]BrewFileLine, 0),
     }
 
-    if service.Debug {
-        service.Logger.Printf("Path: %s", service.Path)
-        service.Logger.Printf("Debug: %t", service.Debug)
-        service.Logger.Printf("Output Format: %t", service.OutputFormat)
-        service.Logger.Printf("Clean: %t", service.Clean)
-    }
-
     return service, nil
 }
 
-func (this *BrewFileProcessor) Execute() error {
+func (this *BrewFileProcessor) Read() error {
+    if this.Debug {
+        this.Logger.Printf("Path: %s", this.Path)
+        this.Logger.Printf("Debug: %t", this.Debug)
+        this.Logger.Printf("Output Format: %t", this.OutputFormat)
+    }
+
     if err := this.lex(); err != nil {
         return err
     }
@@ -61,10 +59,20 @@ func (this *BrewFileProcessor) Execute() error {
         }
     }
 
-    if this.Clean {
-        if err := this.write(); err != nil {
-            return err
-        }
+    return nil
+}
+
+func (this *BrewFileProcessor) Write(l BrewFileLine) error {
+    if err := this.lex(); err != nil {
+        return err
+    }
+
+    if err := this.File.AppendLine(l); err != nil {
+        return err
+    }
+
+    if err := this.write(); err != nil {
+        return err
     }
 
     return nil

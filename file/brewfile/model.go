@@ -1,6 +1,9 @@
 package brewfile
 
-import "encoding/xml"
+import (
+    "encoding/xml"
+    "github.com/pkg/errors"
+)
 
 type BrewfileLineType string
 
@@ -9,7 +12,7 @@ const (
     BrewfileLineType_Brew    BrewfileLineType = "brew"
     BrewfileLineType_Cask    BrewfileLineType = "cask"
     BrewfileLineType_Tap     BrewfileLineType = "tap"
-    BrewfileLineType_Comment BrewfileLineType = "#"
+    BrewfileLineType_Comment BrewfileLineType = "comment"
 )
 
 var (
@@ -21,7 +24,7 @@ var (
     }
 )
 
-func string2BrewfileLineType(s string) BrewfileLineType {
+func String2BrewfileLineType(s string) BrewfileLineType {
     t := BrewfileLineType_Unknown
 
     for _, c := range BrewfileLineTypes {
@@ -43,12 +46,15 @@ type BrewFileFile struct {
     Ignored  int            `json:"ignored" yaml:"ignored" xml:"ignored"`
 }
 
-func (this *BrewFileFile) AppendLine(t BrewfileLineType, v string, c string) {
-    this.Lines = append(this.Lines, BrewFileLine{
-        Name:    t,
-        Value:   v,
-        Comment: c,
-    })
+func (this *BrewFileFile) AppendLine(l BrewFileLine) error {
+    for _, cl := range this.Lines {
+        if cl.Value == l.Value {
+            return errors.Errorf("line %s already exists")
+        }
+    }
+
+    this.Lines = append(this.Lines, l)
+    return nil
 }
 
 type BrewFileLine struct {

@@ -50,7 +50,7 @@ func (this *BrewFileProcessor) lex() error {
 	}
 
 	if _, err := os.Stat(this.Path); os.IsNotExist(err) {
-		return  err
+		return  nil
 	}
 
 	file, err := os.Open(this.Path)
@@ -126,7 +126,7 @@ func (this *BrewFileProcessor) lexLine(line string) (BrewFileLine, error) {
 	}
 
     l := &BrewFileLine{
-        Name: string2BrewfileLineType(tokens[0]),
+        Name: String2BrewfileLineType(tokens[0]),
         Value: strings.Replace(tokens[1], "\"", "", -1),
     }
 

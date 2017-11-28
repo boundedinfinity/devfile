@@ -1,6 +1,10 @@
-hash: 48f4ba200aedb8d86c524cc97165ff0255b1c905e946c0173852270e99621d4a
-updated: 2017-11-27T16:26:37.457676-07:00
+hash: b5014ccac0143f4692fd156b9052a8a2d6aa27b6d5173521baa0c9477c4d26c8
+updated: 2017-11-27T22:50:52.905073-07:00
 imports:
+- name: github.com/davecgh/go-spew
+  version: 346938d642f2ec3594ed81d874461961cd0faa76
+  subpackages:
+  - spew
 - name: github.com/fsnotify/fsnotify
   version: 4da3e2cfbabc9f751898f250b49f2439785783a1
 - name: github.com/hashicorp/hcl
@@ -43,7 +47,7 @@ imports:
   subpackages:
   - unix
 - name: golang.org/x/text
-  version: 88f656faf3f37f690df1a32515b479415e1a6769
+  version: a352c5cd197410fb50acfd80644a31f30f381cc1
   subpackages:
   - transform
   - unicode/norm

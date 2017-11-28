@@ -44,10 +44,3 @@ func OutputFormat(input manager.OutputFormat) BrewFileProcessorOption {
 		return nil
 	}
 }
-
-func Clean(input bool) BrewFileProcessorOption {
-	return func(this *BrewFileProcessor) error {
-		this.Clean = input
-		return nil
-	}
-}
