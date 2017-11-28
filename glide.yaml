@@ -1,0 +1,8 @@
+package: github.com/boundedinfinity/devfile
+import:
+- package: github.com/spf13/viper
+  version: v1.0.0
+- package: github.com/spf13/cobra
+- package: github.com/spf13/pflag
+  version: v1.0.0
+- package: gopkg.in/yaml.v2
