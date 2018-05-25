@@ -3,8 +3,10 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"github.com/spf13/cobra"
+
+	"github.com/boundedinfinity/devfile/cmd/brewfile"
 	"github.com/boundedinfinity/devfile/config"
+	"github.com/spf13/cobra"
 )
 
 var rootLogger = config.CreateLogger()
@@ -23,4 +25,12 @@ func Execute() {
 }
 
 func init() {
+	brewCmd, err := brewfile.GetCommand(rootLogger)
+
+	if err != nil {
+		rootLogger.Fatal(err)
+		return
+	}
+
+	RootCmd.AddCommand(brewCmd)
 }
