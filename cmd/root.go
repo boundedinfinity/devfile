@@ -14,8 +14,8 @@ var rootLogger = config.CreateLogger()
 
 var RootCmd = &cobra.Command{
 	Use:   "devfile",
-	Short: "Manage your development files",
-	Long:  `Manage your development files`,
+	Short: "Manage user and project file",
+	Long:  `Manage user and project file`,
 }
 
 func Execute() {
@@ -26,6 +26,13 @@ func Execute() {
 }
 
 func init() {
+	if cmd, err := user.GetCommand(rootLogger); err != nil {
+		rootLogger.Fatal(err)
+		return
+	} else {
+		RootCmd.AddCommand(cmd)
+	}
+
 	if cmd, err := project.GetCommand(rootLogger); err != nil {
 		rootLogger.Fatal(err)
 		return
@@ -33,10 +40,4 @@ func init() {
 		RootCmd.AddCommand(cmd)
 	}
 
-	if cmd, err := user.GetCommand(rootLogger); err != nil {
-		rootLogger.Fatal(err)
-		return
-	} else {
-		RootCmd.AddCommand(cmd)
-	}
 }
