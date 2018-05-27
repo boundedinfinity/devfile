@@ -1,0 +1,8 @@
+version: '3'
+services:
+    someservice:
+        image: someservice:1.0.0
+        build:
+            context: .
+        volumes:
+            - .:/src

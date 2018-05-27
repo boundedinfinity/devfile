@@ -21,12 +21,12 @@ var createCmd = &cobra.Command{
 	Use:   "create",
 	Short: "create Brewfile",
 	Long:  `create Brewfile`,
-	Run:   brewfileCreateRun,
+	Run:   createRun,
 }
+var createConfig *manager.ConfigurationManager
 
 func GetCommand(logger *log.Logger) (*cobra.Command, error) {
-
-	createConfig, err := manager.NewConfigurationManager(
+	cm, err := manager.NewConfigurationManager(
 		manager.Logger(logger),
 		manager.FlagSet(createCmd.PersistentFlags()),
 	)
@@ -35,6 +35,7 @@ func GetCommand(logger *log.Logger) (*cobra.Command, error) {
 		return nil, err
 	}
 
+	createConfig = cm
 	createConfig.ConfigurePath("Brewfile")
 
 	rootCmd.AddCommand(createCmd)
@@ -42,8 +43,8 @@ func GetCommand(logger *log.Logger) (*cobra.Command, error) {
 	return rootCmd, nil
 }
 
-func brewfileCreateRun(cmd *cobra.Command, args []string) {
-	service := brewfile.NewBrewfileService()
+func createRun(cmd *cobra.Command, args []string) {
+	service := brewfile.NewBrewfileService(createConfig)
 
 	if err := service.Create(); err != nil {
 
@@ -72,8 +73,6 @@ func brewfileCreateRun(cmd *cobra.Command, args []string) {
 //     }
 //     return strings.Join(ss, sep)
 // }
-
-var brewfileCreateConfiguration *manager.ConfigurationManager
 
 // var brewfileReadConfiguration *manager.ConfigurationManager
 // var brewfileWriteConfiguration *manager.ConfigurationManager

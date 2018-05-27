@@ -5,6 +5,9 @@ import (
 	"os"
 
 	"github.com/boundedinfinity/devfile/cmd/brewfile"
+	"github.com/boundedinfinity/devfile/cmd/bumpversion"
+	"github.com/boundedinfinity/devfile/cmd/dockercompose"
+	"github.com/boundedinfinity/devfile/cmd/readme"
 	"github.com/boundedinfinity/devfile/config"
 	"github.com/spf13/cobra"
 )
@@ -25,12 +28,31 @@ func Execute() {
 }
 
 func init() {
-	brewCmd, err := brewfile.GetCommand(rootLogger)
-
-	if err != nil {
+	if cmd, err := brewfile.GetCommand(rootLogger); err != nil {
 		rootLogger.Fatal(err)
 		return
+	} else {
+		RootCmd.AddCommand(cmd)
 	}
 
-	RootCmd.AddCommand(brewCmd)
+	if cmd, err := bumpversion.GetCommand(rootLogger); err != nil {
+		rootLogger.Fatal(err)
+		return
+	} else {
+		RootCmd.AddCommand(cmd)
+	}
+
+	if cmd, err := dockercompose.GetCommand(rootLogger); err != nil {
+		rootLogger.Fatal(err)
+		return
+	} else {
+		RootCmd.AddCommand(cmd)
+	}
+
+	if cmd, err := readme.GetCommand(rootLogger); err != nil {
+		rootLogger.Fatal(err)
+		return
+	} else {
+		RootCmd.AddCommand(cmd)
+	}
 }

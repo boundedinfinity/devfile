@@ -24,3 +24,10 @@ watch:
 	#CompileDaemon -exclude-dir=vendor -command='./devfile brewfile -p test-output/Brewfile -f json -d'
 	#CompileDaemon -exclude-dir=vendor -command='./devfile brewfile -p test-output/Brewfile -f json'
 	#CompileDaemon -exclude-dir=vendor -command='./devfile brewfile -p test-output/Brewfile -f yaml'
+
+run:
+	make build
+	./devfile --help
+	# ./devfile brewfile create -p /tmp/devfile
+	# ./devfile docker-compose --help
+	# ./devfile docker-compose create -p /tmp/devfile
