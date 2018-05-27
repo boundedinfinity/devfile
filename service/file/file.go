@@ -1,4 +1,4 @@
-package common
+package file
 
 import (
 	"io/ioutil"
@@ -7,14 +7,24 @@ import (
 	"github.com/boundedinfinity/devfile/config/manager"
 )
 
-func CreateFile(cm *manager.ConfigurationManager, templatePath, filename string) error {
+type FileService struct {
+	cm *manager.ConfigurationManager
+}
+
+func NewFileService(cm *manager.ConfigurationManager) *FileService {
+	return &FileService{
+		cm: cm,
+	}
+}
+
+func (this *FileService) CreateProjectFile(templatePath, filename string) error {
 	content, err := config.Packr().MustBytes(templatePath)
 
 	if err != nil {
 		return err
 	}
 
-	p, err := cm.GetFilePath(filename)
+	p, err := this.cm.GetFilePath(filename)
 
 	if err != nil {
 		return err

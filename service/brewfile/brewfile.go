@@ -2,19 +2,21 @@ package brewfile
 
 import (
 	"github.com/boundedinfinity/devfile/config/manager"
-	"github.com/boundedinfinity/devfile/service/common"
+	"github.com/boundedinfinity/devfile/service/file"
 )
 
 type BrewfileService struct {
 	cm *manager.ConfigurationManager
+	fs *file.FileService
 }
 
 func NewBrewfileService(cm *manager.ConfigurationManager) *BrewfileService {
 	return &BrewfileService{
 		cm: cm,
+		fs: file.NewFileService(cm),
 	}
 }
 
 func (this *BrewfileService) Create() error {
-	return common.CreateFile(this.cm, "brewfile/Brewfile", "Brewfile")
+	return this.fs.CreateProjectFile("Brewfile", "Brewfile")
 }

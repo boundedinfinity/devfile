@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/boundedinfinity/devfile/config/manager"
-	"github.com/boundedinfinity/devfile/service/brewfile"
+	"github.com/boundedinfinity/devfile/service/readme"
 	"github.com/spf13/cobra"
 )
 
@@ -44,7 +44,7 @@ func GetCommand(logger *log.Logger) (*cobra.Command, error) {
 }
 
 func createRun(cmd *cobra.Command, args []string) {
-	service := brewfile.NewBrewfileService(createConfig)
+	service := readme.NewReadmeService(createConfig)
 
 	if err := service.Create(); err != nil {
 

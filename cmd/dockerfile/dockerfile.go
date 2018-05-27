@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/boundedinfinity/devfile/config/manager"
-	"github.com/boundedinfinity/devfile/service/docker_compose"
+	"github.com/boundedinfinity/devfile/service/dockerfile"
 	"github.com/spf13/cobra"
 )
 
@@ -44,7 +44,7 @@ func GetCommand(logger *log.Logger) (*cobra.Command, error) {
 }
 
 func createRun(cmd *cobra.Command, args []string) {
-	service := docker_compose.NewDockerComposeService(createConfig)
+	service := dockerfile.NewDockerfileService(createConfig)
 
 	if err := service.Create(); err != nil {
 
